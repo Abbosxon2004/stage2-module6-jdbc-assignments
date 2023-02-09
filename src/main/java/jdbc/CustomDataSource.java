@@ -1,10 +1,9 @@
 package jdbc;
 
-import javax.sql.DataSource;
-
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -24,10 +23,11 @@ public class CustomDataSource implements DataSource {
     private static final Object lock = new Object();
 
     private CustomDataSource(String driver, String url, String password, String name) {
-        this.driver=driver;
-        this.url=url;
-        this.password=password;
-        this.name=name;
+        this.driver = driver;
+        this.url = url;
+        this.password = password;
+        this.name = name;
+        instance = this;
     }
 
     public static CustomDataSource getInstance() {
@@ -55,14 +55,15 @@ public class CustomDataSource implements DataSource {
         return instance;
     }
 
+
     @Override
-    public Connection getConnection() throws SQLException {
-        return new CustomConnector().getConnection(url,name,password);
+    public Connection getConnection() {
+        return new CustomConnector().getConnection(url, name, password);
     }
 
     @Override
-    public Connection getConnection(String s1, String s2) throws SQLException {
-        return new CustomConnector().getConnection(url,name,password);
+    public Connection getConnection(String s, String s1) {
+        return new CustomConnector().getConnection(url, name, password);
     }
 
     @Override
@@ -71,13 +72,15 @@ public class CustomDataSource implements DataSource {
     }
 
     @Override
-    public void setLogWriter(PrintWriter out) throws SQLException {
+    public void setLogWriter(PrintWriter printWriter) throws SQLException {
         throw new SQLException();
+
     }
 
     @Override
-    public void setLoginTimeout(int seconds) throws SQLException {
+    public void setLoginTimeout(int i) throws SQLException {
         throw new SQLException();
+
     }
 
     @Override
@@ -91,12 +94,12 @@ public class CustomDataSource implements DataSource {
     }
 
     @Override
-    public <T> T unwrap(Class<T> iface) throws SQLException {
+    public <T> T unwrap(Class<T> aClass) throws SQLException {
         throw new SQLException();
     }
 
     @Override
-    public boolean isWrapperFor(Class<?> iface) throws SQLException {
+    public boolean isWrapperFor(Class<?> aClass) throws SQLException {
         throw new SQLException();
     }
 }
